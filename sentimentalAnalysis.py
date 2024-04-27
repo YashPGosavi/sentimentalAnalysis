@@ -22,6 +22,8 @@ class SentimentAnalysis(Resource):
         sentiment_counts = {'Positive': 0, 'Negative': 0, 'Neutral': 0, 'Bot': 0}
 
         for review in reviews_data:
+            user = review.get('user', '')
+            review_title = review.get('review_title', '')            
             text = review.get('comment', '')
             rating = int(review.get('rating', 0))
             sentiment_scores = sia.polarity_scores(text)
@@ -38,7 +40,7 @@ class SentimentAnalysis(Resource):
 
             if group not in grouped_reviews:
                 grouped_reviews[group] = []
-            grouped_reviews[group].append({'text': text, 'sentiment': group, 'buy': buy, 'rating': rating})
+            grouped_reviews[group].append({'user':user, 'review_title':review_title, 'text': text, 'sentiment': group, 'buy': buy, 'rating': rating})
 
             total_rating += rating
             rating_counts[rating] += 1
