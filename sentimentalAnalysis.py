@@ -30,17 +30,25 @@ class SentimentAnalysis(Resource):
             length = len(text.split())
 
             if sentiment_scores['compound'] > 0.1 and length >= 5:
-                group, buy = 'Positive', True
+                group, buy, tag = 'Positive', True, 'Positive'
             elif sentiment_scores['compound'] < -0.1 and length >= 5:
-                group, buy = 'Negative', False
+                group, buy, tag = 'Negative', False, 'Negative'
             elif length < 5:
-                group, buy = 'Neutral', False
+                group, buy, tag = 'Neutral', False, 'Neutral'
             else:
-                group, buy = 'Bot', False
+                group, buy, tag = 'Bot', False, 'Bot'
 
             if group not in grouped_reviews:
                 grouped_reviews[group] = []
-            grouped_reviews[group].append({'user':user, 'review_title':review_title, 'text': text, 'sentiment': group, 'buy': buy, 'rating': rating})
+            grouped_reviews[group].append({
+                'user': user, 
+                'review_title': review_title, 
+                'text': text, 
+                'sentiment': group, 
+                'buy': buy, 
+                'rating': rating,
+                'tag': tag  # Adding the tag to the review data
+            })
 
             total_rating += rating
             rating_counts[rating] += 1
