@@ -33,7 +33,7 @@ class SentimentAnalysis(Resource):
                 group, buy, tag = 'Positive', True, 'Positive'
             elif sentiment_scores['compound'] < -0.1 and length >= 5:
                 group, buy, tag = 'Negative', False, 'Negative'
-            elif length < 5:
+            elif sentiment_scores['compound'] == 0 and length < 5:
                 group, buy, tag = 'Neutral', False, 'Neutral'
             else:
                 group, buy, tag = 'Bot', False, 'Bot'
